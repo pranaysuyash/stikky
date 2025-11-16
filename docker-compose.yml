@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: stickercraft-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/stickercraft
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - uploads:/app/uploads
+    depends_on:
+      - redis
+      - db
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  redis:
+    image: redis:7-alpine
+    container_name: stickercraft-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  db:
+    image: postgres:15-alpine
+    container_name: stickercraft-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=stickercraft
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Celery worker for async tasks
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: stickercraft-worker
+    environment:
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - uploads:/app/uploads
+    depends_on:
+      - redis
+      - db
+    command: celery -A app.core.celery worker --loglevel=info
+
+volumes:
+  redis_data:
+  postgres_data:
+  uploads:

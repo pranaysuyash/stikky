@@ -1,0 +1,42 @@
+# FastAPI & Server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# AI & Image Processing
+replicate==0.22.0
+fal-client==0.4.0
+pillow==10.1.0
+rembg==2.0.56
+opencv-python-headless==4.8.1.78
+
+# Video Processing
+ffmpeg-python==0.2.0
+
+# Storage
+boto3==1.29.7
+cloudinary==1.36.0
+
+# Queue & Caching
+redis==5.0.1
+celery==5.3.4
+
+# Database
+sqlalchemy==2.0.23
+alembic==1.12.1
+psycopg2-binary==2.9.9
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+
+# Payments
+stripe==7.6.0
+
+# Utils
+httpx==0.25.2
+aiofiles==23.2.1
+validators==0.22.0

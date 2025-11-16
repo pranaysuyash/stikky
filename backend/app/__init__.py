@@ -1,0 +1,1 @@
+"""StickerCraft Backend Application"""
