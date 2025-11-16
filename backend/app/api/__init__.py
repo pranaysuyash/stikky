@@ -3,7 +3,7 @@ API Routes
 """
 from fastapi import APIRouter
 
-from app.api import stickers, users, exports, packs
+from app.api import stickers, users, exports, packs, templates, referrals
 
 router = APIRouter()
 
@@ -12,3 +12,5 @@ router.include_router(stickers.router, prefix="/stickers", tags=["stickers"])
 router.include_router(exports.router, prefix="/exports", tags=["exports"])
 router.include_router(packs.router, prefix="/packs", tags=["packs"])
 router.include_router(users.router, prefix="/users", tags=["users"])
+router.include_router(templates.router, prefix="/templates", tags=["templates"])
+router.include_router(referrals.router, prefix="/referrals", tags=["referrals"])
